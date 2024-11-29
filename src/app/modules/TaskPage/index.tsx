@@ -5,9 +5,10 @@ import NotificationImportantIcon from "@mui/icons-material/NotificationImportant
 import BuildIcon from "@mui/icons-material/Build";
 import useUserContext from "../../hooks/useUserContext";
 
-enum ButtonType {
-  accept = "accept",
-  decline = "decline",
+enum TaskType {
+  new = "Новая",
+  completed = "Выполнена",
+  rejected = "Отклонена",
 }
 
 const task = {
@@ -16,6 +17,7 @@ const task = {
   place: "C21",
   description: "описание заявки описание заявки",
   materials: "описание материалов",
+  status: TaskType.rejected
 };
 
 const TaskPage: FC = () => {
@@ -23,10 +25,19 @@ const TaskPage: FC = () => {
 
   const { confirmTask, declineTask } = useUserContext();
 
+  //Определение цвета статуса в зависимости от значения
+  const mapping = {
+    [TaskType.new]: theme.palette.text.primary,
+    [TaskType.completed]: theme.palette.success.dark,
+    [TaskType.rejected]: theme.palette.error.dark,
+  };
+
+  const colorStatus = mapping[task.status] || theme.palette.text.primary;
+
   return (
     <>
       <Box className={`${styles["task__content"]} right`}>
-        <Stack className={styles["task__title"]}>
+        <Stack className={styles["task__line"]}>
           <Typography
             variant="h2"
             style={{ minWidth: "100px", maxWidth: "100px" }}
@@ -35,28 +46,33 @@ const TaskPage: FC = () => {
             №{task.id}
           </Typography>
           <Typography
-            variant="h4"
-            style={{
-              flexGrow: "1",
-              marginLeft: "0",
-              maxHeight: "38px",
-              maxWidth: "150px",
+            variant="body1"
+            sx={{
+              color: theme.palette.text.primary,
             }}
-            className="text_overflow_two"
           >
-            Павильон: {task.place}
+            Павильон: <span className={`text_size_medium text_weight_bold`} style={{ color: theme.palette.text.primary }}>{task.place}</span>
           </Typography>
         </Stack>
-        <Typography
-          variant="body1"
-          className={styles["task__time"]}
-          sx={{
-            margin: "8px 0",
-            color: theme.palette.text.secondary,
-          }}
-        >
-          {task.created_at}
-        </Typography>
+        <Stack className={styles["task__line"]}>
+          <Typography
+            variant="body1"
+            sx={{
+              color: theme.palette.text.primary,
+            }}
+          >
+            Статус: <span className={`text_size_medium text_weight_bold`} style={{ color: colorStatus }}>{task.status}</span>
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: theme.palette.text.primary,
+            }}
+          >
+            {task.created_at}
+          </Typography>
+        </Stack>
+
         <Box
           className={styles["task__description"]}
           sx={{
@@ -113,7 +129,9 @@ const TaskPage: FC = () => {
               color: theme.palette.text.primary,
               backgroundColor: theme.palette.background.paper,
             }}
-            onClick={()=>{declineTask(`Укажите причину отклонения заявки №${task.id}:`)}}
+            onClick={() => {
+              declineTask(`Укажите причину отклонения заявки №${task.id}:`);
+            }}
           >
             Отклонить
           </Button>
@@ -124,7 +142,11 @@ const TaskPage: FC = () => {
             sx={{
               backgroundColor: theme.palette.common.blue,
             }}
-            onClick={()=>{confirmTask(`Уверены, что хотите взять заявку №${task.id} в работу?`)}}
+            onClick={() => {
+              confirmTask(
+                `Уверены, что хотите взять заявку №${task.id} в работу?`
+              );
+            }}
           >
             Принять
           </Button>

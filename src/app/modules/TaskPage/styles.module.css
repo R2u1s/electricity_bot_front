@@ -7,17 +7,14 @@
   padding: 6px;
 }
 
-.task__title {
+.task__line {
+  margin: 6px 0;
   padding:0 12px;
   display:flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width:100%;
-}
-
-.task__time {
-  padding:0 12px;
 }
 
 .task__description {
@@ -36,13 +33,4 @@
   border-radius: 12px;
   min-height: 56px;
   width:100%;
-}
-
-.modal-task__content {
-  padding: 20px;
-  border-radius: 24px;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
