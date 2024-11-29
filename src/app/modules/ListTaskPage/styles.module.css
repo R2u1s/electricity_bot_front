@@ -1,0 +1,24 @@
+.start__title {
+  margin-left: 4px;
+}
+
+.start__list {
+  margin: 0;
+  margin-bottom: 6px;
+  width: 100%;
+  list-style-type: none;
+}
+
+.start__task {
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 3px;
+  border-radius: 8px;
+}
+
+.start__task:last-child {
+    margin-bottom: 0;
+  }
+
+

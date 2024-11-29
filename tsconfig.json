@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "types/*": ["app/_types/*"],
+      "@common/*": ["app/_common/*"],
+      "@ui-components/*": ["app/ui-components/*"],
+      "@user-permissions/*": ["app/user-permissions/*"],
+      "@utils/*": ["app/utils/*"],
+      "@hooks/*": ["app/hooks/*"],
+      "@styles/*": ["app/styles/*"],
+      "@modules/*": ["app/modules/*"]
+    },
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"],
+  "types": ["chrome", "node"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -1,0 +1,1 @@
+export const MIN_LENGTH_REASON_TASK_DECLINE = 4;

@@ -1,0 +1,42 @@
+.start__title {
+  margin-left: 4px;
+}
+
+.start__list {
+  margin: 0;
+  margin-bottom: 6px;
+  width: 100%;
+  list-style-type: none;
+}
+
+.start__el {
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+.start__task {
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 3px;
+  border-radius: 8px;
+}
+
+.start__el:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.start__el:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 0;
+}
+
+.start__task:last-child {
+    margin-bottom: 0;
+}
+
+
