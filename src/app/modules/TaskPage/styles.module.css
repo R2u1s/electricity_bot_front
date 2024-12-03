@@ -20,7 +20,7 @@
 .task__description {
   margin:0;
   margin-top: 6px;
-  padding: 6px;
+  padding: 10px;
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -33,4 +33,10 @@
   border-radius: 12px;
   min-height: 56px;
   width:100%;
+}
+
+.task__additional {
+  margin-top:16px;
+  margin-bottom: 16px;
+  padding-left:10px;
 }

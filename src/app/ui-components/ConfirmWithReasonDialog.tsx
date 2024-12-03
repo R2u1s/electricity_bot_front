@@ -122,7 +122,7 @@ const ConfirmWithReasonDialog: FC<Props> = ({
           <TextField
             value={reasonText}
             onChange={(e) => setReasonText(e.target.value)}
-            sx={{ width: "350px" }}
+            sx={{ width: "100%" }}
           />
         </Stack>
       </DialogContent>

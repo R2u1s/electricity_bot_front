@@ -1,156 +1,89 @@
-import React, { FC, useState, useCallback, ReactNode } from "react";
-import { Box, Button, Stack, Typography, useTheme } from "@mui/material";
+import React, { FC, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  useTheme
+} from "@mui/material";
 import styles from "./styles.module.css";
-import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-import BuildIcon from "@mui/icons-material/Build";
 import useUserContext from "../../hooks/useUserContext";
+import DynamicInputList from "@ui-components/DynamicInputList";
+import Comment from "./Comment";
+import Photo from "./Photo";
+import WarehouseIcon from "@mui/icons-material/Warehouse";
+import CurrencyRubleIcon from "@mui/icons-material/CurrencyRuble";
+import DynamicDropdownList from "@ui-components/DynamicDropDownList";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import TaskDescription from "./TaskDescription";
+import { TaskType, TTask } from "types/common";
+import TaskBtns from "./TaskBtns";
+import BackBtn from "@ui-components/telegram/BackButton";
 
-enum TaskType {
-  new = "Новая",
-  completed = "Выполнена",
-  rejected = "Отклонена",
-}
-
-const task = {
+const task: TTask = {
   id: 123,
   created_at: "11:12 сегодня",
   place: "C21",
-  description: "описание заявки описание заявки",
-  materials: "описание материалов",
-  status: TaskType.rejected
+  description:
+    "описание заявки описание заявки описание заявки описание заявки описание заявки описание заявки описание заявки описание заявки описание заявки описание заявки",
+  materials: "описание материалов описание материалов описание материалов",
+  status: TaskType.inprogress,
 };
 
+const collegues = [
+  "Электрик1",
+  "Электрик2",
+  "Электрик3",
+  "Электрикwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww3",
+  "Электрик4",
+];
+
 const TaskPage: FC = () => {
+
   const theme = useTheme();
 
-  const { confirmTask, declineTask } = useUserContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    BackBtn(`/${TaskType.new}`, navigate);
+  }, []);
 
-  //Определение цвета статуса в зависимости от значения
-  const mapping = {
-    [TaskType.new]: theme.palette.text.primary,
-    [TaskType.completed]: theme.palette.success.dark,
-    [TaskType.rejected]: theme.palette.error.dark,
-  };
-
-  const colorStatus = mapping[task.status] || theme.palette.text.primary;
+  const [materials, setMaterials] = useState<string[]>([]);
+  const [purchased, setPurchased] = useState<string[]>([]);
+  const [collChosen, setCollChosen] = useState<string[]>([]);
 
   return (
     <>
       <Box className={`${styles["task__content"]} right`}>
-        <Stack className={styles["task__line"]}>
-          <Typography
-            variant="h2"
-            style={{ minWidth: "100px", maxWidth: "100px" }}
-            className="text_overflow_one"
-          >
-            №{task.id}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: theme.palette.text.primary,
-            }}
-          >
-            Павильон: <span className={`text_size_medium text_weight_bold`} style={{ color: theme.palette.text.primary }}>{task.place}</span>
-          </Typography>
-        </Stack>
-        <Stack className={styles["task__line"]}>
-          <Typography
-            variant="body1"
-            sx={{
-              color: theme.palette.text.primary,
-            }}
-          >
-            Статус: <span className={`text_size_medium text_weight_bold`} style={{ color: colorStatus }}>{task.status}</span>
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: theme.palette.text.primary,
-            }}
-          >
-            {task.created_at}
-          </Typography>
-        </Stack>
+        <TaskDescription task={task} />
 
-        <Box
-          className={styles["task__description"]}
-          sx={{
-            "&": {
-              backgroundColor: theme.palette.background.paper,
-            },
-          }}
-        >
-          <Stack direction="row" alignItems="center">
-            <NotificationImportantIcon fontSize="small" />
-            <Typography variant="h5" sx={{ padding: "4px 8px" }}>
-              Проблема
-            </Typography>
-          </Stack>
+        <DynamicInputList
+          title={"Материалы со склада"}
+          buttonText={"Добавить материал со склада"}
+          Icon={<WarehouseIcon fontSize="small" />}
+          items={materials}
+          setItems={setMaterials}
+        />
 
-          <Typography variant="body1">
-            Описание проблемы описание проблемы описание проблемы описание
-            проблемы описание проблемы описание проблемы описание проблемы
-            описание проблемы описание проблемы описание проблемы
-          </Typography>
-        </Box>
-        <Box
-          className={styles["task__description"]}
-          sx={{
-            "&": {
-              backgroundColor: theme.palette.background.paper,
-            },
-          }}
-        >
-          <Stack direction="row" alignItems={"center"}>
-            <BuildIcon fontSize="small" />
-            <Typography variant="h5" sx={{ padding: "4px 8px" }}>
-              Материалы
-            </Typography>
-          </Stack>
+        <DynamicInputList
+          title={"Покупные материалы"}
+          buttonText={"Добавить покупной материал"}
+          Icon={<CurrencyRubleIcon fontSize="small" />}
+          items={purchased}
+          setItems={setPurchased}
+        />
 
-          <Typography variant="body1">
-            Описание материалов описание материалов описание материалов
-          </Typography>
-        </Box>
-        <Stack
-          direction="row"
-          padding="12px 0"
-          justifyContent="space-between"
-          alignItems="center"
-          width="100%"
-          gap="8px"
-        >
-          <Button
-            variant="contained"
-            size="large"
-            className={styles["task__button"]}
-            sx={{
-              color: theme.palette.text.primary,
-              backgroundColor: theme.palette.background.paper,
-            }}
-            onClick={() => {
-              declineTask(`Укажите причину отклонения заявки №${task.id}:`);
-            }}
-          >
-            Отклонить
-          </Button>
-          <Button
-            variant="contained"
-            size="large"
-            className={styles["task__button"]}
-            sx={{
-              backgroundColor: theme.palette.common.blue,
-            }}
-            onClick={() => {
-              confirmTask(
-                `Уверены, что хотите взять заявку №${task.id} в работу?`
-              );
-            }}
-          >
-            Принять
-          </Button>
-        </Stack>
+        <DynamicDropdownList
+          title={"Выполнена совместно"}
+          buttonText={"Добавить имя сотрудника"}
+          Icon={<PersonAddIcon fontSize="small" />}
+          items={collChosen}
+          setItems={setCollChosen}
+          options={collegues}
+        />
+
+        <Comment />
+
+        <Photo />
+
+        <TaskBtns task={task} />
       </Box>
     </>
   );

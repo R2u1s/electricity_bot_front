@@ -1,7 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, List, ListItem, useTheme } from "@mui/material";
 import Task, { TTaskProps } from "../../ui-components/Task";
-import { TaskType } from '../../_types/common';
+import { TaskType } from "../../_types/common";
+import BackBtn from "@ui-components/telegram/BackButton";
 
 import styles from "./styles.module.css";
 
@@ -45,8 +47,8 @@ const completedTasks: TTaskProps[] = [
 ];
 
 enum Title {
-  new = 'Новые заявки:',
-  completed = 'Выполненные заявки:'
+  new = "Новые заявки:",
+  completed = "Выполненные заявки:",
 }
 
 const New: FC = () => {
@@ -67,6 +69,11 @@ const New: FC = () => {
       setArrayOfTasks(completedTasks);
     }
   }, [lastPart]);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    BackBtn("/", navigate);
+  }, []);
 
   return (
     <Box
